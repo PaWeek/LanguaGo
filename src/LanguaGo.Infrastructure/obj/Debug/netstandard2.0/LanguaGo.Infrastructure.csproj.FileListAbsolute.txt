@@ -1,0 +1,12 @@
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\bin\Debug\netstandard2.0\LanguaGo.Infrastructure.deps.json
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\bin\Debug\netstandard2.0\LanguaGo.Infrastructure.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\bin\Debug\netstandard2.0\LanguaGo.Infrastructure.pdb
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\bin\Debug\netstandard2.0\LanguaGo.Core.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\bin\Debug\netstandard2.0\LanguaGo.Core.pdb
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.csprojAssemblyReference.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.AssemblyInfo.cs
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.csproj.CopyComplete
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Infrastructure\obj\Debug\netstandard2.0\LanguaGo.Infrastructure.pdb

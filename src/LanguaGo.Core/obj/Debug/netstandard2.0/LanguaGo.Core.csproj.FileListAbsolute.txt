@@ -1,0 +1,9 @@
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\bin\Debug\netstandard2.0\LanguaGo.Core.deps.json
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\bin\Debug\netstandard2.0\LanguaGo.Core.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\bin\Debug\netstandard2.0\LanguaGo.Core.pdb
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\obj\Debug\netstandard2.0\LanguaGo.Core.csprojAssemblyReference.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\obj\Debug\netstandard2.0\LanguaGo.Core.csproj.CoreCompileInputs.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\obj\Debug\netstandard2.0\LanguaGo.Core.AssemblyInfoInputs.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\obj\Debug\netstandard2.0\LanguaGo.Core.AssemblyInfo.cs
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\obj\Debug\netstandard2.0\LanguaGo.Core.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Core\obj\Debug\netstandard2.0\LanguaGo.Core.pdb

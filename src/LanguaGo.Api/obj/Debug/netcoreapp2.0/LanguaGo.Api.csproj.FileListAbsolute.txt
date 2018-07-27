@@ -1,0 +1,16 @@
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Api.deps.json
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Api.runtimeconfig.json
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Api.runtimeconfig.dev.json
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Api.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Api.pdb
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Core.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Infrastructure.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Infrastructure.pdb
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\bin\Debug\netcoreapp2.0\LanguaGo.Core.pdb
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.csprojAssemblyReference.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.csproj.CoreCompileInputs.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.AssemblyInfoInputs.cache
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.AssemblyInfo.cs
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.csproj.CopyComplete
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.dll
+C:\Users\PaWeek\Desktop\LanguaGo\src\LanguaGo.Api\obj\Debug\netcoreapp2.0\LanguaGo.Api.pdb
