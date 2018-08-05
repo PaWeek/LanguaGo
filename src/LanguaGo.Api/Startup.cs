@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using LanguaGo.Core.Repositories;
 using LanguaGo.Infrastructure.Repositories;
 using LanguaGo.Infrastructure.Services;
-using LanguaGo.Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,16 +34,17 @@ namespace LanguaGo.Api
                 .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-            services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            services.AddSingleton<IJwtHandler, JwtHandler>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => 
                 {
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                };
-            });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +56,8 @@ namespace LanguaGo.Api
             }
 
             app.UseMvc();
+
+            app.UseAuthentication();
         }
     }
 }

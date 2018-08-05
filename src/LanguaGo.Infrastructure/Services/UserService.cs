@@ -2,19 +2,21 @@ using System;
 using System.Threading.Tasks;
 using LanguaGo.Core.Domain;
 using LanguaGo.Core.Repositories;
+using LanguaGo.Infrastructure.DTO;
 
 namespace LanguaGo.Infrastructure.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-
-        public UserService(IUserRepository userRepository)
+        private readonly IJwtHandler _jwtHandler;
+        public UserService(IUserRepository userRepository, IJwtHandler jwtHandler)
         {
             _userRepository = userRepository;
+            _jwtHandler = jwtHandler;
         }
 
-        public async Task LoginAsync(string email, string password)
+        public async Task<TokenDto> LoginAsync(string email, string password)
         {
             var user = await _userRepository.GetAsync(email);
         
@@ -27,6 +29,15 @@ namespace LanguaGo.Infrastructure.Services
             {
                 throw new Exception($"Invalid credentials.");
             }
+
+            var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
+
+            return new TokenDto()
+            {
+                Token = jwt.Token,
+                Role = user.Role,
+                Expires = jwt.Expires,
+            };
         }
 
         public async Task RegisterAsync(Guid userId, string email, string password, string role = "user")

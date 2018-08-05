@@ -2,7 +2,14 @@ using System;
 using System.Threading.Tasks;
 using LanguaGo.Api.Commands.Users;
 using LanguaGo.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using LanguaGo.Core.Domain;
+using System.Text;
 
 namespace LanguaGo.Api.Controllers
 {
@@ -30,9 +37,8 @@ namespace LanguaGo.Api.Controllers
         }
 
         [HttpPost("login")]
-        public Task<IActionResult> Post(Login command)
-        {
-            
-        }
+        public async Task<IActionResult> Post(Login command)
+            => Json(await _userService.LoginAsync(command.Email, command.Password));
+        
     }
 }
