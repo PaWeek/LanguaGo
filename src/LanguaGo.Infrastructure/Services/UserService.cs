@@ -1,8 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
+using LanguaGo.Core;
 using LanguaGo.Core.Domain;
 using LanguaGo.Core.Repositories;
 using LanguaGo.Infrastructure.DTO;
+using LanguaGo.Infrastructure.Extensions;
 
 namespace LanguaGo.Infrastructure.Services
 {
@@ -10,10 +13,20 @@ namespace LanguaGo.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtHandler _jwtHandler;
-        public UserService(IUserRepository userRepository, IJwtHandler jwtHandler)
+        private readonly IMapper _mapper;
+
+        public UserService(IUserRepository userRepository, IJwtHandler jwtHandler, IMapper mapper)
         {
             _userRepository = userRepository;
             _jwtHandler = jwtHandler;
+            _mapper = mapper;
+        }
+
+        public async Task<AccountDto> GetAccountAsync(Guid userId)
+        {
+            var user = await _userRepository.GetOrFailAsync(userId);
+
+            return _mapper.Map<AccountDto>(user);
         }
 
         public async Task<TokenDto> LoginAsync(string email, string password)
@@ -25,7 +38,7 @@ namespace LanguaGo.Infrastructure.Services
                 throw new Exception($"Invalid credentials.");
             }
 
-            if (user.Password != password)
+            if (user.Password != Encryption.Sha1encrypt(password))
             {
                 throw new Exception($"Invalid credentials.");
             }

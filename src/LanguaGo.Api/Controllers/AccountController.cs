@@ -4,16 +4,10 @@ using LanguaGo.Api.Commands.Users;
 using LanguaGo.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using LanguaGo.Core.Domain;
-using System.Text;
 
 namespace LanguaGo.Api.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : ApiControllerBase
     {
         private readonly IUserService _userService;
 
@@ -23,13 +17,12 @@ namespace LanguaGo.Api.Controllers
         }
 
         [HttpGet]
-        public Task<IActionResult> Get()
-        {
-            
-        }
+        [Authorize]
+        public async Task<IActionResult> Get()
+            => Json(await _userService.GetAccountAsync(UserId));
 
         [HttpPost("register")]
-        public async Task<IActionResult> Post(Register command)
+        public async Task<IActionResult> Post([FromBody]Register command)
         {
             await _userService.RegisterAsync(Guid.NewGuid(), command.Email, command.Password, command.Role);
 
@@ -37,7 +30,7 @@ namespace LanguaGo.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Post(Login command)
+        public async Task<IActionResult> Post([FromBody]Login command)
             => Json(await _userService.LoginAsync(command.Email, command.Password));
         
     }

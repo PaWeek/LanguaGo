@@ -18,7 +18,7 @@ namespace LanguaGo.Api.Controllers
         public async Task<string> Get()
         {
             User user = await repo.GetAsync("paweek@gm.pl");
-            return $"{user.Id}, {user.Email}, {user.Password}, {user.RoleId}, {user.IsConfirmed}, {user.CreatedAt}";
+            return $"{user.Id}, {user.Email}, {user.Password}, {user.Role}, {user.IsConfirmed}, {user.CreatedAt}";
         }
 
         // GET api/values/5
@@ -32,8 +32,8 @@ namespace LanguaGo.Api.Controllers
         [HttpPost]
         public async Task Post()
         {
-            var user = new User(new Guid("8b2d36ba-6b62-4664-aaaa-94ddd1559216"), "smail@email.pl", "password", new Guid("be8bf4e0-cbdb-4a77-8d26-d1860366e4d3"), true);
-            await repo.UpdateAsync(user);
+            var user = new User(new Guid("8b2d36ba-6b62-4664-aaaa-94ddd1559216"), "smail@email.pl", "password", "user");
+            await repo.AddAsync(user);
         }
 
         // PUT api/values/5
@@ -46,7 +46,7 @@ namespace LanguaGo.Api.Controllers
         [HttpDelete]
         public async Task Delete()
         {
-            var user = new User(Guid.NewGuid(), "email@email.pl", "password", new Guid("be8bf4e0-cbdb-4a77-8d26-d1860366e4d3"), true);
+            var user = new User(Guid.NewGuid(), "email@email.pl", "password", "");
             await repo.DeleteAsync(user); 
         }
     }

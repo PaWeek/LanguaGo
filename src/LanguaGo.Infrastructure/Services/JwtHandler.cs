@@ -31,7 +31,7 @@ namespace LanguaGo.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString())
             };
 
-            var expires = now.AddMinutes(Double.Parse(_configuration["Jwt:Issuer"]));
+            var expires = now.AddMinutes(Double.Parse(_configuration["Jwt:ExpiryMinutes"]));
             
             var signingCredentials = new SigningCredentials( new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])),
                 SecurityAlgorithms.HmacSha256);

@@ -21,7 +21,20 @@ namespace LanguaGo.Infrastructure.Repositories
 
             connection.Open();
 
-            var user = connection.QueryFirstAsync<User>(query, new {Email = email}).Result;
+            var user = connection.QueryFirstOrDefaultAsync<User>(query, new {Email = email}).Result;
+
+            connection.Close();
+
+            return await Task.FromResult(user);
+        }
+
+        public async Task<User> GetAsync(Guid id)
+        {
+            string query = "SELECT * FROM Users WHERE Id = @Id;";
+
+            connection.Open();
+
+            var user = connection.QueryFirstOrDefaultAsync<User>(query, new {Id = id}).Result;
 
             connection.Close();
 
