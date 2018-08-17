@@ -8,7 +8,6 @@ namespace LanguaGo.Core.Repositories
     {
         Task<User> GetAsync(string email);
         Task<User> GetAsync(Guid id);
-
         Task AddAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(User user);
