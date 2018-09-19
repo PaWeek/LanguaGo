@@ -1,10 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LanguaGo.Api",
-    "\\LanguaGo.Api\\wwwroot",
-    "\\LanguaGo.Infrastructure"
+    "\\LanguaGo.Infrastructure",
+    "\\LanguaGo.Infrastructure\\Services"
   ],
-  "SelectedNode": "\\LanguaGo.Api",
+  "SelectedNode": "\\LanguaGo.Infrastructure\\Services\\WordsModuleService.cs",
   "PreviewInSolutionExplorer": false
 }

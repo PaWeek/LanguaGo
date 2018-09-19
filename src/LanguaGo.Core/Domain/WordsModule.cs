@@ -28,7 +28,40 @@ namespace LanguaGo.Core.Domain
 
         public void AddTerm(Term term)
         {
+            if (term == null)
+            {
+                throw new Exception($"Module with id: '{Id}' can not have an empty term.");
+            }
+
             _terms.Add(term);
+        }
+
+        public void GetTerms(IEnumerable<Term> terms)
+        {
+            foreach(Term item in terms)
+            {
+                _terms.Add(item);
+            }
+        }
+
+        public void SetName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new Exception($"Module with id: '{Id}' can not have an empty name.");
+            }
+
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new Exception($"Module with id: '{Id}' can not have an empty description.");
+            }
+
+            Description = description;
         }
     }
 }

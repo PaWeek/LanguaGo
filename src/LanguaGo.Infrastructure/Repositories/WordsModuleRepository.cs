@@ -6,16 +6,61 @@ using System.Threading.Tasks;
 using Dapper;
 using LanguaGo.Core.Domain;
 using LanguaGo.Core.Repositories;
-using Z.Dapper.Plus;
 
 namespace LanguaGo.Infrastructure.Repositories
 {
     public class WordsModuleRepository : IWordsModuleRepository
     {
-        public SqlConnection connection = new SqlConnection(@"Data Source=DESKTOP-ST1FCME\SQLEXPRESS;" +
-            "Initial Catalog=LanguaGoDatabase;Integrated Security=true;");
+        public SqlConnection connection = new SqlConnection("");
+        
+        public async Task<WordsModule> GetAsync(Guid userId, string name)
+        {
+            string query = "SELECT * FROM WordsModules WHERE UserId = @UserId AND Name = @Name;";
+            string sql = "SELECT * FROM Terms WHERE WordsModuleId = @Id;";
 
-        public async Task<IEnumerable<WordsModule>> GetAllAsync(Guid userId)
+            connection.Open();
+
+            var wordsModule = connection.QueryFirstOrDefaultAsync<WordsModule>(query, new {UserId = userId, Name = name}).Result;
+
+            if (wordsModule != null)
+            {
+                using (var multi = connection.QueryMultiple(sql, new {Id = wordsModule.Id}))
+                {
+                    var terms = multi.Read<Term>().AsEnumerable();
+                    wordsModule.GetTerms(terms);
+                }
+            }
+
+            connection.Close();
+
+            return await Task.FromResult(wordsModule);
+        }
+
+        public async Task<WordsModule> GetAsync(Guid userId, Guid id)
+        {
+            string query = "SELECT * FROM WordsModules WHERE UserId = @UserId AND Id = @Id;";
+            string sql = "SELECT * FROM Terms WHERE WordsModuleId = @Id;";
+            
+            connection.Open();
+
+            var wordsModule = connection.QueryFirstOrDefaultAsync<WordsModule>(query, new {UserId = userId, Id = id}).Result;
+
+
+            if (wordsModule != null)
+            {
+                using (var multi = connection.QueryMultiple(sql, new {Id = id}))
+                {
+                    var terms = multi.Read<Term>().AsEnumerable();
+                    wordsModule.GetTerms(terms);                
+                }
+            }
+
+            connection.Close();
+
+            return await Task.FromResult(wordsModule);
+        }
+
+        public async Task<IEnumerable<WordsModule>> BrowseAsync(Guid userId, string name = "")
         {
             string sql = "SELECT * FROM WordsModules WHERE UserId = @UserId;";
 
@@ -23,47 +68,51 @@ namespace LanguaGo.Infrastructure.Repositories
 
             using (var multi = connection.QueryMultiple(sql, new {UserId = userId}))
             {
-                var wordsModules = multi.Read<WordsModule>().ToList();
+                var wordsModules = multi.Read<WordsModule>().AsEnumerable();
                 
                 connection.Close();
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    wordsModules = wordsModules.Where(x => x.Name.ToLowerInvariant()
+                        .Contains(name.ToLowerInvariant()));
+                }
 
                 return await Task.FromResult(wordsModules);
             }
         }
 
-        public async Task<WordsModule> GetAsync(Guid userId, string name)
-        {
-            string query = "SELECT * FROM WordsModules WHERE UserId = @UserId AND Name = @Name;";
-
-            connection.Open();
-
-            var wordsModule = connection.QueryFirstOrDefaultAsync<WordsModule>(query, new {UserId = userId, Name = name}).Result;
-
-            connection.Close();
-
-            return await Task.FromResult(wordsModule);
-        }
-
         public async Task AddAsync(WordsModule module)
         {
-            await connection.OpenAsync();
-
-            DapperPlusManager.Entity<WordsModule>().Table("WordsModules");
-
-            connection.BulkInsert(module);
-
+            string sql = "INSERT INTO WordsModules Values(@Id, @UserId, @Name, @Description, @CreatedAt);";
+            
+            connection.Open();
+            
+            connection.Execute(sql, new {
+                Id = module.Id, 
+                UserId = module.UserId,
+                Name = module.Name,
+                Description = module.Description,
+                CreatedAt = module.CreatedAt
+                });
+                
             connection.Close();
-
+            
             await Task.CompletedTask;
         }
 
         public async Task UpdateAsync(WordsModule module)
         {
-            await connection.OpenAsync();
+            string sql = "UPDATE WordsModules SET Name = @Name, Description = @Description WHERE Id = @Id AND UserId = @UserId;";
 
-            DapperPlusManager.Entity<WordsModule>().Table("WordsModules");
+            connection.Open();            
 
-            connection.BulkUpdate(module);
+            connection.Execute(sql, new {
+                Name = module.Name,
+                Description = module.Description,
+                Id = module.Id,
+                UserId = module.UserId
+            });
 
             connection.Close();
 
@@ -72,32 +121,65 @@ namespace LanguaGo.Infrastructure.Repositories
 
         public async Task DeleteAsync(WordsModule module)
         {
+            string sql = "DELETE FROM WordsModule WHERE Id = @Id AND UserId = @UserId;";
+
             connection.Open();
-            
-            string query = "SELECT * FROM WordsModules WHERE Name = @Name;";
 
-            DapperPlusManager.Entity<WordsModule>().Table("WordsModules").Key("Name");
-
-            connection.BulkDelete(connection.Query<WordsModule>(query, new {Name = module.Name}).ToList());
+            connection.Execute(sql, new {
+                Id = module.Id,
+                UserId = module.UserId
+            });
 
             connection.Close();
 
             await Task.CompletedTask;
         }
 
-        public Task AddTermAsync(Term term)
+        public async Task<Term> GetTermAsync(Guid moduleId, Guid id)
         {
-            throw new NotImplementedException();
-        }
-        
-        public Task UpdateTermAsync(Term term)
-        {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Terms WHERE UserId = @ModuleId AND Id = @Id;";
+
+            connection.Open();
+
+            var term = connection.QueryFirstOrDefaultAsync<Term>(query, new {ModuleId = moduleId, Id = id}).Result;
+
+            connection.Close();
+
+            return await Task.FromResult(term);
         }
 
-        public Task DeleteTermAsync(Term term)
+        public async Task AddTermAsync(Term term)
         {
-            throw new NotImplementedException();
+            string sql = "INSERT INTO Terms Values(@Id, @WordsModuleId, @Word, @Translation);";
+            
+            connection.Open();
+            
+            connection.Execute(sql, new {
+                Id = term.Id, 
+                WordsModuleId = term.WordsModuleId,
+                Word = term.Word,
+                Translation = term.Translation
+                });
+                
+            connection.Close();
+
+            await Task.CompletedTask;
+        }
+
+        public async Task DeleteTermAsync(Term term)
+        {
+            string sql = "DELETE FROM Terms WHERE Id = @Id AND WordsModuleId = @WordsModuleId;";
+
+            connection.Open();
+
+            connection.Execute(sql, new {
+                Id = term.Id,
+                WordsModuleId = term.WordsModuleId
+            });
+
+            connection.Close();
+
+            await Task.CompletedTask;
         }
     }
 }

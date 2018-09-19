@@ -10,6 +10,9 @@ namespace LanguaGo.Infrastructure.Mappers
             => new MapperConfiguration(cfg => 
             {
                 cfg.CreateMap<User, AccountDto>();
+                cfg.CreateMap<WordsModule, WordsModuleDto>();
+                cfg.CreateMap<WordsModule, WordsModuleDetailsDto>();
+                cfg.CreateMap<Term, TermDto>();
             })
             .CreateMapper();
     }

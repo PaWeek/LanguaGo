@@ -17,5 +17,17 @@ namespace LanguaGo.Infrastructure.Extensions
 
             return user;
         }
+
+        public static async Task<WordsModule> GetOrFailAsync(this IWordsModuleRepository repository, Guid userId , Guid id)
+        {
+            var module = await repository.GetAsync(userId, id);
+
+            if (module == null)
+            {
+                throw new Exception($"Module with this id: {id} does not exist.");
+            }
+
+            return module;
+        }
     }
 }

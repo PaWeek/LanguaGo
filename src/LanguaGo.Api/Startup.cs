@@ -36,6 +36,8 @@ namespace LanguaGo.Api
                 .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWordsModuleRepository, WordsModuleRepository>();
+            services.AddScoped<IWordsModuleService, WordsModuleService>();
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddSingleton<IJwtHandler, JwtHandler>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -49,6 +51,7 @@ namespace LanguaGo.Api
                     };
                 });
             services.AddAuthorization();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +63,12 @@ namespace LanguaGo.Api
             }
 
             app.UseAuthentication();
-
+            app.UseCors(builder => builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()); 
             app.UseMvc();
         }
     }

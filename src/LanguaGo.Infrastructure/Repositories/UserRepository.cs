@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 using Dapper;
 using LanguaGo.Core.Domain;
 using LanguaGo.Core.Repositories;
-using Z.Dapper.Plus;
 
 namespace LanguaGo.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public SqlConnection connection = new SqlConnection(@"Data Source=DESKTOP-ST1FCME\SQLEXPRESS;" +
-            "Initial Catalog=LanguaGoDatabase;Integrated Security=true;");
+        public SqlConnection connection = new SqlConnection("");
 
         public async Task<User> GetAsync(string email)
         {
@@ -43,12 +41,18 @@ namespace LanguaGo.Infrastructure.Repositories
 
         public async Task AddAsync(User user)
         {
-            await connection.OpenAsync();
-
-            DapperPlusManager.Entity<User>().Table("Users");
-
-            connection.BulkInsert(user);
-
+            string sql = "INSERT INTO Users Values(@Id, @Email, @Password, @Role, @CreatedAt);";
+            
+            connection.Open();
+            
+            connection.Execute(sql, new {
+                Id = user.Id, 
+                Email = user.Email,
+                Password = user.Password,
+                Role = user.Role,
+                CreatedAt = user.CreatedAt
+                });
+                
             connection.Close();
 
             await Task.CompletedTask;
@@ -56,11 +60,15 @@ namespace LanguaGo.Infrastructure.Repositories
 
         public async Task UpdateAsync(User user)
         {
-            await connection.OpenAsync();
+            string sql = "UPDATE Users SET Email = @Email, Password = @Password WHERE Id = @Id;";
 
-            DapperPlusManager.Entity<User>().Table("Users");
+            connection.Open();            
 
-            connection.BulkUpdate(user);
+            connection.Execute(sql, new {
+                Email = user.Email,
+                Password = user.Password,
+                Id = user.Id
+            });
 
             connection.Close();
 
@@ -69,13 +77,13 @@ namespace LanguaGo.Infrastructure.Repositories
 
         public async Task DeleteAsync(User user)
         {
-            await connection.OpenAsync();
-            
-            string query = "SELECT * FROM Users WHERE Email = @Email;";
+            string sql = "DELETE FROM Users WHERE Id = @Id;";
 
-            DapperPlusManager.Entity<User>().Table("Users").Key("Email");
+            connection.Open();            
 
-            connection.BulkDelete(connection.Query<User>(query, new {Email = user.Email}).ToList());
+            connection.Execute(sql, new {
+                Id = user.Id
+            });
 
             connection.Close();
 
